@@ -3,19 +3,19 @@ import './theme.css';
 import cx from 'classnames';
 import React, { Component } from 'react';
 import Tree from 'react-ui-tree';
-import tree from './tree';
-import Product from './media';
-import packageJSON from '../package.json';
+import product_tree from './product_tree2';
 import ListOfProducts from './list-products';
-import Popup from './popup';
+
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       active: null,
-      tree: tree,
-      showPopup: true
+      tree: product_tree,
+      showPopup: true,
+      length_list: 20,
+      default_length: 20
     };
   }
 
@@ -33,11 +33,16 @@ class App extends Component {
   };
 
   onClickNode = node => {
-    alert("Hello")
     this.setState({
-      active: node
+      active: node,
+      length_list: this.state.default_length
     });
+    //console.log(this.state.active)
   };
+
+  loadMore = () => {
+    this.setState({ length_list: this.state.length_list + 20 })
+  }
 
   render() {
     return (
@@ -52,13 +57,13 @@ class App extends Component {
           />
         </div>
         <div className="inspector">
-          {/*           <h1>
-            {packageJSON.name} {packageJSON.version}
-          </h1>
-          <button onClick={this.updateTree}>update tree</button> */}
-          {/* <pre>{JSON.stringify(this.state.tree, null, '  ')}</pre> */}
-          {/* <Product /> */}
-          <ListOfProducts />
+          <ListOfProducts
+            active={this.state.active === null ? "" : this.state.active.path}
+            length_list={this.state.length_list}
+          />
+          <button onClick={this.loadMore} type="button" className="load-more">
+            MORE PRODUCTS
+          </button>
         </div>
       </div>
     );

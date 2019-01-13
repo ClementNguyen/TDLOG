@@ -14,6 +14,7 @@
   -ms-user-select: none;
   user-select: none;
 }
+
 .m-draggable {
   position: absolute;
   opacity: 0.8;

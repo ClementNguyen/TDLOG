@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import LinesEllipsis from 'react-lines-ellipsis';
 import Popup from './popup';
 
 
@@ -7,12 +6,7 @@ class Product extends Component {
     constructor(props) {
         super();
         this.state = {
-             showPopup: false,
-/*
-            productName: 'Nom du produit',
-            price: '5€',
-            description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?',
-            imageSrc: 'thumbnail.png'  */
+            showPopup: false,
             productName: props.productName,
             price: props.price,
             currency: props.currency,
@@ -38,23 +32,23 @@ class Product extends Component {
         return (
             <div className="product" style={{ float: 'left' }}>
                 <div>
-                    <img src={this.state.imageSrc} width={100} height={100} alt="thumbnail"
+                    <img src={this.state.imageSrc} width={175} height={175} alt="thumbnail"
                         align='left' hspace='25' />
                     {/* <h2 onClick={this.state.handleClick.bind(this)}> */}
-                    <h2 onClick={this.togglePopup.bind(this)}>
+                    <h2 className="name" onClick={this.togglePopup.bind(this)}>
                         {this.state.productName}
                     </h2>
                     <h3>
-                        Prix : {this.state.price+' '+this.state.currency}
+                        Price : <span style={{ fontWeight: 'normal', fontSize: 20, color: 'red' }}> {this.state.price} </span> {this.state.currency} 
                     </h3>
-                    Description : 
-                    <LinesEllipsis
+{/*                     Description : 
+                     <LinesEllipsis
                         text={this.state.description}
-                        maxLine='2'
+                        maxLine='1'
                         ellipsis='...'
                         trimRight
                         basedOn='words'
-                    />
+                    />  */}
                 </div>
                 {this.state.showPopup ?
                     <Popup
