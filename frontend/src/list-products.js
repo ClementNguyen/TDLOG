@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Product from './media'
-import { propTypes } from 'react-ui-tree/dist/react-ui-tree';
+import Product from './product'
 
 class ListOfProducts extends Component {
     constructor(props) {
@@ -49,7 +48,7 @@ class ListOfProducts extends Component {
     }
 
     async componentWillReceiveProps(props) {
-        if (props.active != this.state.active || props.length_list != this.state.length_list) {
+        if (props.active !== this.state.active || props.length_list !== this.state.length_list) {
             this.setState({ 
                 active: props.active,
                 length_list: props.length_list
@@ -71,7 +70,6 @@ class ListOfProducts extends Component {
                 products: products,
                 length_list: products.length
             })
-            console.log(products.length)
         }
     }
     render() {        

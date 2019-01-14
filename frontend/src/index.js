@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Product from './media';
 //import ControlledPanelGroup from './panel'
 import * as serviceWorker from './serviceWorker';
 
