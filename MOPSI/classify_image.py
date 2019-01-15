@@ -9,12 +9,10 @@ from io import BytesIO
 import argparse
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"]="3"
-import re
 import sys
 import tarfile
 import numpy as np
 from six.moves import urllib
-import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"]="3"
 import tensorflow as tf
 
@@ -145,11 +143,9 @@ class NodeLookup(object):
 
   def load(self, label_lookup_path, uid_lookup_path):
     """Loads a human readable English name for each softmax node.
-
     Args:
       label_lookup_path: string UID to integer node ID.
       uid_lookup_path: string UID to human-readable string.
-
     Returns:
       dict from integer node ID to human-readable string.
     """
@@ -206,10 +202,8 @@ def create_graph():
 
 def run_inference_on_image(image):
   """Runs inference on an image.
-
   Args:
     image: Image file name.
-
   Returns:
     Nothing
   """
@@ -275,25 +269,27 @@ def maybe_download_and_extract():
     print('Successfully downloaded', filename, statinfo.st_size, 'bytes.')
   tarfile.open(filepath, 'r:gz').extractall(dest_directory)
   
-def five_most_similar_products(product):
-  distances=[]
+def recommandations(product):
+  c=[categories[product].split(',')[-1]] #list of categories in which we will search
   for i in range(len(product_names)):
-    if product_names[i]!=product_names[product] and str(dsc_image_urls[i])!='nan' and i!=product and categories[product].split(',')[-2] in categories[i].split(','):
-      print('Calculating distance with product ',i,'...')
-      distances.append((coeffc*(1-similarity_test.evaluateSimilarity(product,i,data),i)))
-  distances=sorted(distances)
+    if categories[product].split(',')[0:-1]==categories[i].split(',')[0:-1] and categories[i].split(',')[-1] not in c:
+      c.append(categories[i].split(',')[-1])
   list=[]
-  for i in range(5):
-    list.append([distances[i][1],dsc_image_urls[distances[i][1]]])
+  for category in c:
+    distances=[]
+    for i in range(len(product_names)):
+      if product_names[i]!=product_names[product] and str(dsc_image_urls[i])!='nan' and categories[product].split(',')[0:-1]==categories[i].split(',')[0:-1] and categories[i].split(',')[-1]==category:
+        distances.append((coeffc*(1-similarity_test.evaluateSimilarity(product,i,data),i)))
+    distances=sorted(distances)
+    list.append([distances[0][1],dsc_image_urls[distances[0][1]]])
   return list
 
 
 def main():
-  maybe_download_and_extract()
-  product=27
+  product=898
   print('The product ',product,' is : ',product_names[product], dsc_image_urls[product] )
-  print('Its five most similar products are : ')
-  print(five_most_similar_products(product))
+  print('The recommanded products are : ')
+  print(recommandations(product))
   
   
   # product1=3
