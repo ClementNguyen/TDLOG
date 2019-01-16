@@ -15,7 +15,7 @@ import numpy as np
 from six.moves import urllib
 os.environ["TF_CPP_MIN_LOG_LEVEL"]="3"
 import tensorflow as tf
-
+import csv
 import urllib.request
 from urllib.request import Request, urlopen
 import requests
@@ -32,7 +32,9 @@ path=r"C:\Users\Wissam\Desktop\IMI\\"
 path1=path+r"MOPSI\\" #folder containing the .csv file
 path2=path1+r"Images\\" #folder that will store the images
 data = pandas.read_csv(path1+r"enpc_raw_data_products_ng.csv",engine='python')
+id=data.values[:,0]
 product_names=data.values[:,1]
+product_descriptions=data.values[:,2]
 dsc_image_urls=data.values[:,3]
 categories=data.values[:,4]
 model = gensim.models.KeyedVectors.load_word2vec_format(path1+'GoogleNews-vectors-negative300.bin', binary=True)  
@@ -278,18 +280,22 @@ def recommandations(product):
   for category in c:
     distances=[]
     for i in range(len(product_names)):
-      if product_names[i]!=product_names[product] and str(dsc_image_urls[i])!='nan' and categories[product].split(',')[0:-1]==categories[i].split(',')[0:-1] and categories[i].split(',')[-1]==category:
+      if product_names[i]!=product_names[product] and str(product_descriptions[i])!='nan' and str(dsc_image_urls[i])!='nan' and categories[product].split(',')[0:-1]==categories[i].split(',')[0:-1] and categories[i].split(',')[-1]==category:
         distances.append((coeffc*(1-similarity_test.evaluateSimilarity(product,i,data),i)))
     distances=sorted(distances)
-    list.append([distances[0][1],dsc_image_urls[distances[0][1]]])
+    list.append(id[distances[0][1]])
   return list
 
 
 def main():
-  product=898
-  print('The product ',product,' is : ',product_names[product], dsc_image_urls[product] )
-  print('The recommanded products are : ')
-  print(recommandations(product))
+  # maybe_download_and_extract()
+  
+  with open(path1+r'recommandations.csv', mode='w', newline="") as csvfile:
+    r = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    for i in range(len(product_names)):
+      if categories[i]=='Root Category, Phones & Tablets, Accessories, Cases, Mobile Phones':
+        print(i)
+        r.writerow([id[i]]+recommandations(i))
   
   
   # product1=3
