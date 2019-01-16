@@ -29,8 +29,7 @@ def processText(text):
         if word not in stopwords_:
             new_words.append(word)
     return new_words
-text1 = processText(text1)
-text2 = processText(text2)
+
 def avg_feature_vector(words):
     num_features = 160
     feature_vec = np.zeros((num_features, ), dtype='float32')
@@ -55,6 +54,8 @@ def evaluateSimilarity(index1,index2,data):
     index = [index1,index2]
     text1 = data.loc[index1,'Name']+data.loc[index1,'Description']
     text2 = data.loc[index2,'Name']+data.loc[index2,'Description']
+    text1 = processText(text1)
+    text2 = processText(text2)
     x = [ w2vScores(text1,text2)+[abs(data.loc[index[0],'RetailPrice']-data.loc[index[1],'RetailPrice'])/data.loc[index[0],'RetailPrice']] ]
     return prediction_model.predict_proba(x)[0][1]
         
