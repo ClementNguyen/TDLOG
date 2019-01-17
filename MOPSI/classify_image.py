@@ -37,8 +37,8 @@ product_names=data.values[:,1]
 product_descriptions=data.values[:,2]
 dsc_image_urls=data.values[:,3]
 categories=data.values[:,4]
-model = gensim.models.KeyedVectors.load_word2vec_format(path1+'GoogleNews-vectors-negative300.bin', binary=True)  
-index2word_set = set(model.wv.index2word)
+# model = gensim.models.KeyedVectors.load_word2vec_format(path1+'GoogleNews-vectors-negative300.bin', binary=True)  
+# index2word_set = set(model.wv.index2word)
 coeffw=1 #weight of Wissam's method
 coeffc=2 #weight of Clément's method
 #similaritylimit=0.7
@@ -293,10 +293,11 @@ def main():
   with open(path1+r'recommandations.csv', mode='w', newline="") as csvfile:
     r = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     for i in range(len(product_names)):
-      if categories[i]=='Root Category, Phones & Tablets, Accessories, Cases, Mobile Phones':
+      if categories[i]=='Root Category, Phones & Tablets, Mobile Phones, Smartphones, iOS Phones' and str(product_descriptions[i])!='nan':
         print(i)
         r.writerow([id[i]]+recommandations(i))
   
+
   
   # product1=3
   # product2=14
