@@ -9,7 +9,9 @@ class ListOfProducts extends Component {
             RetailPrice: '',
             currency: '',
             Description: '',
-            imageSrc: 'thumbnail.png'
+            imageSrc: 'thumbnail.png',
+            Categories: '',
+            ID: ''
         }
         let list_temp = []
         for (let i = 0; i < props.length_list; i++) {
@@ -37,12 +39,12 @@ class ListOfProducts extends Component {
     createList = () => {
         let products_list = []
         for (let i = 0; i < Math.min(this.state.length_list,this.state.products.length); i++) {
-            products_list.push(<Product key={'product_' + String(i)}
-                productName={this.state.products[i].Name}
+            products_list.push(<Product key={'product_' + String(i)} info_product={this.state.products[i]}/>) 
+/*                 productName={this.state.products[i].Name}
                 price={this.state.products[i].RetailPrice}
                 currency={this.state.products[i].currency}
                 description={this.state.products[i].Description}
-                imageSrc={this.state.products[i].SmallImage} />)
+                imageSrc={this.state.products[i].SmallImage} />) */
         }
         return products_list
     }
@@ -53,17 +55,13 @@ class ListOfProducts extends Component {
                 active: props.active,
                 length_list: props.length_list
              })        
-            var jsonstr = JSON.stringify({ 
-                post: props.active,
-                post_length: props.length_list
-             })
             const response = await fetch('http://localhost:4000/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': '*/*',
                 },
-                body: jsonstr,
+                body: JSON.stringify({ post: props.active, post_length: props.length_list }),
             });
             const products = await response.json();
             this.setState({

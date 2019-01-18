@@ -7,21 +7,11 @@ class Product extends Component {
         super();
         this.state = {
             showPopup: false,
-            productName: props.productName,
-            price: props.price,
-            currency: props.currency,
-            description: props.description,
-            imageSrc: props.imageSrc 
+            info: props.info_product
         };        
     }
     componentWillReceiveProps(props) {
-        this.setState({
-                        productName: props.productName,
-                        price: props.price,
-                        currency: props.currency,
-                        description: props.description,
-                        imageSrc: props.imageSrc 
-                    })
+        this.setState({ info: props.info_product })
     }
     togglePopup() {
         this.setState({
@@ -32,14 +22,17 @@ class Product extends Component {
         return (
             <div className="product" style={{ float: 'left' }}>
                 <div>
-                    <img src={this.state.imageSrc} width={175} height={175} alt="thumbnail"
+                    <img src={this.state.info.SmallImage} width={175} height={175} alt="thumbnail"
                         align='left' hspace='25' />
                     {/* <h2 onClick={this.state.handleClick.bind(this)}> */}
                     <h2 className="name" onClick={this.togglePopup.bind(this)}>
-                        {this.state.productName}
+                        {this.state.info.Name}
                     </h2>
                     <h3>
-                        Price : <span style={{ fontWeight: 'normal', fontSize: 20, color: 'red' }}> {this.state.price} </span> {this.state.currency} 
+                        Price : <span style={{ fontWeight: 'normal', fontSize: 20, color: 'red' }}> 
+                        {this.state.info.RetailPrice+' '} 
+                        </span> 
+                        {this.state.info.currency} 
                     </h3>
 {/*                     Description : 
                      <LinesEllipsis
@@ -52,12 +45,8 @@ class Product extends Component {
                 </div>
                 {this.state.showPopup ?
                     <Popup
-                        productName={this.state.productName}
-                        price={this.state.price}
-                        currency={this.state.currency}
-                        description={this.state.description}
-                        imageSrc={this.state.imageSrc}
-                        closePopup={this.togglePopup.bind(this)}
+                        info={this.state.info}
+                        closePopup={this.togglePopup.bind(this)} 
                     />
                     : null
                 }

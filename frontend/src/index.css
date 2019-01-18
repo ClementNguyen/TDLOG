@@ -94,8 +94,8 @@ body {
   position: absolute;
   left: 15%;
   right: 15%;
-  top: 15%;
-  bottom: 15%;
+  top: 8%;
+  bottom: 5%;
   margin: auto;
   background: white;
 }
@@ -118,9 +118,10 @@ body {
 }
 .popup_inner h2 {
   font-weight: normal;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .popup_inner .description {
-  font-size: 14px;
+  font-size: 12px;
   padding-right: 40px;
 }
+
