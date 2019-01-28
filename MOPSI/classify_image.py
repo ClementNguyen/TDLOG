@@ -42,6 +42,7 @@ categories=data.values[:,4]
 coeffw=1 #weight of Wissam's method
 coeffc=2 #weight of Clément's method
 #similaritylimit=0.7
+nrecommandations=5
 
 os.chdir(r"C:\Users\Wissam\Desktop\IMI\MOPSI\models-master\tutorials\image\imagenet")
 import similarity_test
@@ -276,29 +277,36 @@ def recommandations(product):
   for i in range(len(product_names)):
     if categories[product].split(',')[0:-1]==categories[i].split(',')[0:-1] and categories[i].split(',')[-1] not in c:
       c.append(categories[i].split(',')[-1])
-  list=[]
-  for category in c:
+  rec=[]
+  distances=[]
+  for i in range(len(product_names)):
+    if product_names[i]!=product_names[product] and str(product_descriptions[i])!='nan' and str(dsc_image_urls[i])!='nan' and categories[product].split(',')[0:-1]==categories[i].split(',')[0:-1] and categories[i].split(',')[-1]==c[0]:
+      distances.append((coeffc*(1-similarity_test.evaluateSimilarity(product,i,data),i)))
+  distances=sorted(distances)
+  rec.append(id[distances[0][1]]+' '+id[distances[1][1]]+' '+id[distances[2][1]])
+  rec.append('')
+  for k in range(1,len(c)):
     distances=[]
     for i in range(len(product_names)):
-      if product_names[i]!=product_names[product] and str(product_descriptions[i])!='nan' and str(dsc_image_urls[i])!='nan' and categories[product].split(',')[0:-1]==categories[i].split(',')[0:-1] and categories[i].split(',')[-1]==category:
+      if product_names[i]!=product_names[product] and str(product_descriptions[i])!='nan' and str(dsc_image_urls[i])!='nan' and categories[product].split(',')[0:-1]==categories[i].split(',')[0:-1] and categories[i].split(',')[-1]==c[k]:
         distances.append((coeffc*(1-similarity_test.evaluateSimilarity(product,i,data),i)))
     distances=sorted(distances)
-    list.append(id[distances[0][1]])
-  return list
+    rec[-1]+=' '+id[distances[0][1]]+' '+id[distances[1][1]]+' '+id[distances[2][1]]
+  rec[-1]=rec[-1][1:]
+  return rec
 
 
 def main():
   # maybe_download_and_extract()
   
   with open(path1+r'recommandations.csv', mode='w', newline="") as csvfile:
-    r = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    r = csv.writer(csvfile, delimiter=',', quotechar='"', escapechar=' ', quoting=csv.QUOTE_NONE)
     for i in range(len(product_names)):
-      if categories[i]=='Root Category, Phones & Tablets, Mobile Phones, Smartphones, iOS Phones' and str(product_descriptions[i])!='nan':
+      if categories[i]=='Root Category, Gaming, Playstation, PlayStation 4, Consoles' and str(product_descriptions[i])!='nan':
         print(i)
         r.writerow([id[i]]+recommandations(i))
-  
+        
 
-  
   # product1=3
   # product2=14
   # if str(dsc_image_urls[product1])=='nan':
