@@ -13,13 +13,17 @@ data2 = pd.read_csv("data2_processed.csv")
 d2v_model = doc2vec.Doc2Vec.load("d2v_model")
 
 ##comparaison avec doc2vec
-def descriptionSimilarity(index1,index2,data2):
+def distance_d2v(index1,index2):
+    vect1=d2v_model.docvecs[data2.loc[index1,'ID']]
+    vect2=d2v_model.docvecs[data2.loc[index2,'ID']]
+    return abs(spatial.distance.cosine(vect1, vect2))
+
+def descriptionSimilarity2(index1,index2,data2):
     desc1 = data2.loc[index1,'Description']
     desc2 = data2.loc[index2,'Description']
     vect1 = d2v_model.infer_vector(desc1)
     vect2 = d2v_model.infer_vector(desc2)
     return abs(spatial.distance.cosine(vect1, vect2))
-
 ##Accuracy
 nb_data=data2.shape[0]
 index_product=[]
@@ -28,56 +32,55 @@ for k in range(nb_data):
     if "['Gaming', 'Playstation', 'PlayStation 4', 'Consoles']" in data2.loc[k,"Categories"]:
         index_product.append(k)
 
-def 
-vectotr_categorie=d2v_model.infer_vector(data2.loc[2,'Description'])
+def vecteur_moyen(index_product):
+    vector_categorie=d2v_model.docvecs[index_product[0]]
+    for k in range(1,len(index_product)):
+        vector_categorie+=d2v_model.docvecs[index_product[k]]
+    return(vector_categorie/len(index_product))
 
-def test_accuracy_in_category(product_ref,nb):
-    nb=min(nb,len(index_product))
+
+def test_accuracy_in_category():
     mean=0
-    for k in range(nb):
-        mean+=descriptionSimilarity(product_ref,index_product[k],data2)
-    mean=mean/nb
-    return mean
+    n=len(index_product)
+    l_distances=[]
+    for j in range(n):
+        for k in range(n):
+            l_distances.append(distance_d2v(index_product[j],index_product[k]))
+    return np.mean(l_distances),np.median(l_distances)
     
-def test_accuracy_outside_category(product_ref,nb_comparaisons):
-    distance_min=1
-    mean=0
-    n=min(len(index_product),nb_comparaisons)
+def test_accuracy_outside_category(product_ref):
+    liste_distances=[]
+    n=len(index_product)
     for k in range(n):
-        distance_min=min(distance_min,descriptionSimilarity(product_ref,index_product[k],data2))
-        mean+=descriptionSimilarity(product_ref,index_product[k],data2)
-    return distance_min, mean/n
+        liste_distances.append(distance_d2v(product_ref,index_product[k]))
+    return min(liste_distances), np.mean(liste_distances), np.median(liste_distances)
 
-def graph1(nb_products):#graphe qui représente la similarité moyenne de nb_products produits extérieurs à la catégorie concernée
-    nb_products=min(nb_products,len(index_product))
-    means=[]
-    means_similar=[]
-    low_bounds=[]
-    low_bounds_similar=[]
+
+m_inside,median_inside=test_accuracy_in_category()
+
+def graph1(nb_products):#graphe qui représente la similarité moyenne de nb_products produits extérieurs à la catégorie concernée)
+    l_mean=[]
+    l_min=[]
+    l_median=[]
     resu=0
     compteur=0
     for k in range(nb_products):
         if k not in index_product:
             compteur+=1
-            resu=test_accuracy_outside_category(k,50)
-            low_bounds.append(resu[0])
-            means.append(resu[1])
-            
-            resu=test_accuracy_in_category(index_product[k],50)
-            means_similar.append(resu)
-            
-    plt.plot(np.arange(compteur),means)
-    plt.plot(np.arange(compteur),low_bounds)
-    plt.plot(np.arange(compteur),means_similar)
+            resu=test_accuracy_outside_category(k)
+            l_min.append(resu[0])
+            l_mean.append(resu[1])
+            l_median.append(resu[2])
+    
+    plt.figure()
+    plt.plot(np.arange(compteur),l_min)
+    plt.plot(np.arange(compteur),l_mean)
+    plt.plot(np.arange(compteur),l_median)
+    #m_inside=test_accuracy_in_category()
+    plt.plot([0,compteur-1],[m_inside,m_inside])
+    plt.plot([0,compteur-1],[median_inside,median_inside])
+    plt.legend(["min","mean","median","mean_inside","median_inside"])
     plt.show()
-    
-def graph2(nb_products):
-    mean_outside=0
-    for k in range(nb_products):
-        index=random.randint(0,nb_data-1)
-        mean_outside+=
-        
-    
 
 
 ##Images
