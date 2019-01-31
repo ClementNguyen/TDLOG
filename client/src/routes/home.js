@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import ListOfProducts from '../components/home/list-products';
 import MenuCategories from '../components/home/menu-categories';
 import product_tree from '../components/home/product_tree';
-import cloneDeep from 'lodash/cloneDeep';
+
 import '../components/home/home.css';
 
 
 class Home extends Component {
   constructor() {
     super();
-    let tree_temp = cloneDeep(product_tree)
+    let tree_temp = product_tree
     this.state = {
       active: null,
       length_list: 20,
@@ -71,7 +71,7 @@ class Home extends Component {
               placeholder="Product ID..."
             />
             <button className="search-button" onClick={this.onClickSearch}>
-              <i class="fa fa-search"></i>
+              <i className="fa fa-search"></i>
             </button>
           </form>
 

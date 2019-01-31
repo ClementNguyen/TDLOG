@@ -18,8 +18,7 @@ class Popup extends Component {
             body: JSON.stringify({ ID: this.state.info.ID }),
         });
         const recommended = await response.json();
-        //console.log(recommended)
-        //this.setState({ recommended: recommended })
+        this.setState({ recommended: recommended })
     }
 
     render() {
