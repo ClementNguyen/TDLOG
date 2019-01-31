@@ -26,6 +26,7 @@ def distance_d2v(index1,index2):
 #     return abs(spatial.distance.cosine(vect1, vect2))
 ##Accuracy
 nb_data=data2.shape[0]
+nmax=200
 
 def index_of_category(category):
     index_product=[]
@@ -46,7 +47,7 @@ def vecteur_moyen(index_product):
 
 def test_accuracy_in_category():
     mean=0
-    n=len(index_product)
+    n=min(len(index_product),nmax)
     l_distances=[]
     for j in range(n):
         for k in range(n):
@@ -55,7 +56,7 @@ def test_accuracy_in_category():
     
 def test_accuracy_outside_category(product_ref):
     liste_distances=[]
-    n=len(index_product)
+    n=min(len(index_product),nmax)
     for k in range(n):
         liste_distances.append(distance_d2v(product_ref,index_product[k]))
     return min(liste_distances), np.mean(liste_distances), np.median(liste_distances)
@@ -87,6 +88,7 @@ def graph1(nb_products):#graphe qui représente la similarité moyenne de nb_pro
     plt.legend(["min","mean","median","mean_inside","median_inside"])
     plt.show()
 
+graph1(150)
 
 ##Images
 # import urllib.request
