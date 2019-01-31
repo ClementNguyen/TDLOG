@@ -5,13 +5,14 @@ from gensim.models import Word2Vec, doc2vec
 from scipy import spatial
 import matplotlib.pyplot as plt
 import numpy as np
+import random
 
 path="D:\\Sasha\\Documents\\ENPC\\IMI\\MOPSI\\github\\ressources"
 os.chdir(path)
 data2 = pd.read_csv("data2_processed.csv")
 d2v_model = doc2vec.Doc2Vec.load("d2v_model")
 
-##comparaison d'images avec doc2vec
+##comparaison avec doc2vec
 def descriptionSimilarity(index1,index2,data2):
     desc1 = data2.loc[index1,'Description']
     desc2 = data2.loc[index2,'Description']
@@ -27,6 +28,8 @@ for k in range(nb_data):
     if "['Gaming', 'Playstation', 'PlayStation 4', 'Consoles']" in data2.loc[k,"Categories"]:
         index_product.append(k)
 
+def 
+vectotr_categorie=d2v_model.infer_vector(data2.loc[2,'Description'])
 
 def test_accuracy_in_category(product_ref,nb):
     nb=min(nb,len(index_product))
@@ -67,6 +70,14 @@ def graph1(nb_products):#graphe qui représente la similarité moyenne de nb_pro
     plt.plot(np.arange(compteur),low_bounds)
     plt.plot(np.arange(compteur),means_similar)
     plt.show()
+    
+def graph2(nb_products):
+    mean_outside=0
+    for k in range(nb_products):
+        index=random.randint(0,nb_data-1)
+        mean_outside+=
+        
+    
 
 
 ##Images
