@@ -34,7 +34,6 @@ app.use('/recommended', recommended_controller);
 //Requests for recommended product
 app.use('/recommendations', recommendations_controller);
 
-
 // Start the server
 app.listen(4000, () => {
   console.log('Listening on port 4000');

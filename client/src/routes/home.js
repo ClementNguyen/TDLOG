@@ -48,7 +48,7 @@ class Home extends Component {
     this.setState({
       active: { path: products_rec },
       length_list: -2,
-    }) 
+    })
   }
 
   loadMore = () => {
@@ -71,13 +71,15 @@ class Home extends Component {
               placeholder="Product ID..."
             />
             <button className="search-button" onClick={this.onClickSearch}>
-              Search
+              <i class="fa fa-search"></i>
             </button>
           </form>
 
-          <button className="show-recommendations" onClick={this.onClickRecommendations}>
-            Show recommendations
-          </button>
+          <div className='show-recommendations-container'>
+            <button className="show-recommendations" onClick={this.onClickRecommendations}>
+              Show recommendations
+            </button>
+          </div>
 
           <ListOfProducts
             active={this.state.active === null ? "" : this.state.active.path}

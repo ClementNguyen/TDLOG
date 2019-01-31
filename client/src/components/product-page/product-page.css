@@ -49,7 +49,7 @@
 .grid {
     display: grid;
     grid-gap: 0px;
-    grid-template-columns: repeat(10, 200px);
+    grid-template-columns: repeat(100, 200px);
     grid-template-rows: minmax(150px, 1fr);
     overflow-x: scroll;
 }
@@ -59,4 +59,19 @@
 .small-product {
     width: 200px;
     padding-left: 20px;
+}
+
+.small-product #small-product-image {
+    margin-left: 10%;
+}
+
+.small-product a {
+    text-decoration: none;
+}
+.small-product a:link {
+    color: black;
+}
+
+.small-product a:hover {
+    font-weight: bold;
 }

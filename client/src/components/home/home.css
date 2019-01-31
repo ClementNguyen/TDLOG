@@ -1,5 +1,5 @@
 
-.inspector {
+  .inspector {
     margin-left: 450px;
     margin-right: 100px;
     margin-top: 100px;  
@@ -9,7 +9,51 @@
     font-family: Menlo;
     font-size: 13px;
   }
+
+  .form {
+    width: 50%;
+    position: relative;
+    top: -80px;
+    left: 40%;
+    transform: translate(-50%, -50%);
+  }
+
+  .form .input {
+    float: left;
+    width: 100%;
+    border: 3px solid rgb(168, 168, 168);
+    padding: 5px;
+    height: 30px;
+    border-radius: 5px;
+    outline: none;
+    color: rgb(168, 168, 168);
+  }
   
+  .form .search-button {
+    position: absolute;  
+    right: -30px;
+    width: 40px;
+    height: 30px;
+    border: 1px solid rgb(168, 168, 168);
+    background: rgb(168, 168, 168);
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+  .show-recommendations-container {
+    position: absolute;
+    top: 90px;
+  }
+
+  .show-recommendations-container .show-recommendations {
+    position: relative;
+    width: 180px;    
+    left: 0px;
+  }
+
   .inspector .load-more {
     margin-left: 35%;
     margin-right: 35%;
@@ -21,7 +65,6 @@
     font-weight: bold;
   }
   
-  
   .product {
     font-size: 12px;
     width: 100%;
@@ -30,15 +73,27 @@
     background-color: rgb(255, 255, 255);
   }
   
-  .product #name {
+  .product .name {
     margin: 0px;
     padding-top: 40px;
-    margin-left: 230px;
+    margin-left: 40px;
     margin-right: 40px;
     font-weight: normal;
     cursor: pointer;
   }
+
+  .product a {
+    text-decoration: none;
+  }
   
+  .product a:link {
+  color: black;
+  }
+
+  .product a:visited {
+  color: black;
+  }
+
   .product .name:hover {
     font-weight: bold;
   }

@@ -25,9 +25,11 @@ class Product extends Component {
                     <img src={this.state.info.SmallImage} width={175} height={175} alt="thumbnail"
                         align='left' hspace='25' />
                     {/* <h2 onClick={this.state.handleClick.bind(this)}> */}
-                    <a id="name" href={this.state.info.ID} target='_blank'>
+                    <h2 className="name">
+                    <a href={this.state.info.ID} target='_blank'>
                         {this.state.info.Name}
                     </a>
+                    </h2>
                     <h3>
                         Price : <span style={{ fontWeight: 'normal', fontSize: 20, color: 'red' }}> 
                         {this.state.info.RetailPrice+' '} 
