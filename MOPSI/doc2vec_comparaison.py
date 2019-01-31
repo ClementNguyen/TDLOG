@@ -18,19 +18,24 @@ def distance_d2v(index1,index2):
     vect2=d2v_model.docvecs[data2.loc[index2,'ID']]
     return abs(spatial.distance.cosine(vect1, vect2))
 
-def descriptionSimilarity2(index1,index2,data2):
-    desc1 = data2.loc[index1,'Description']
-    desc2 = data2.loc[index2,'Description']
-    vect1 = d2v_model.infer_vector(desc1)
-    vect2 = d2v_model.infer_vector(desc2)
-    return abs(spatial.distance.cosine(vect1, vect2))
+# def descriptionSimilarity2(index1,index2,data2):
+#     desc1 = data2.loc[index1,'Description']
+#     desc2 = data2.loc[index2,'Description']
+#     vect1 = d2v_model.infer_vector(desc1)
+#     vect2 = d2v_model.infer_vector(desc2)
+#     return abs(spatial.distance.cosine(vect1, vect2))
 ##Accuracy
 nb_data=data2.shape[0]
-index_product=[]
-categorie="['Gaming', 'Playstation', 'PlayStation 4', 'Consoles']"
-for k in range(nb_data):
-    if "['Gaming', 'Playstation', 'PlayStation 4', 'Consoles']" in data2.loc[k,"Categories"]:
-        index_product.append(k)
+
+def index_of_category(category):
+    index_product=[]
+    for k in range(nb_data):
+        if category in data2.loc[k,"Categories"]:
+            index_product.append(k)
+    return(index_product)
+
+#index_product=index_of_category("['Gaming', 'Playstation', 'PlayStation 4', 'Consoles']")
+index_product=index_of_category("['Phones & Tablets', 'Mobile Phones', 'Smartphones', 'Android Phones']")
 
 def vecteur_moyen(index_product):
     vector_categorie=d2v_model.docvecs[index_product[0]]
@@ -86,3 +91,5 @@ def graph1(nb_products):#graphe qui représente la similarité moyenne de nb_pro
 ##Images
 # import urllib.request
 # urllib.request.urlretrieve('https://ng.jumia.is/MjkSuqBBIQ1fiMCMp2jEv-Cb2Po=/fit-in/500x500/filters:fill(white)/product/89/28679/1.jpg?0368',"test.jpg")
+for k in range(50):
+    print(data2.loc[k,"Categories"])
