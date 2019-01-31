@@ -36,7 +36,9 @@ def index_of_category(category):
     return(index_product)
 
 #index_product=index_of_category("['Gaming', 'Playstation', 'PlayStation 4', 'Consoles']")
-index_product=index_of_category("['Phones & Tablets', 'Mobile Phones', 'Smartphones', 'Android Phones']")
+#index_product=index_of_category("['Phones & Tablets', 'Mobile Phones', 'Smartphones', 'Android Phones']")
+index_product=index_of_category("['Home & Office', 'Home & Kitchen', 'Kitchen & Dining', 'Small Appliances', 'Microwave Ovens']")
+
 
 def vecteur_moyen(index_product):
     vector_categorie=d2v_model.docvecs[index_product[0]]
@@ -93,5 +95,11 @@ graph1(150)
 ##Images
 # import urllib.request
 # urllib.request.urlretrieve('https://ng.jumia.is/MjkSuqBBIQ1fiMCMp2jEv-Cb2Po=/fit-in/500x500/filters:fill(white)/product/89/28679/1.jpg?0368',"test.jpg")
-for k in range(50):
-    print(data2.loc[k,"Categories"])
+# set_categories=set()
+# for k in range(200):
+#     set_categories.add(data2.loc[k,"Categories"])
+# print(set_categories)
+
+for k in range(nb_data):
+    if "microwave" in data2.loc[k,"Name"]:
+        print(k)
