@@ -6,7 +6,7 @@ from scipy import spatial
 import matplotlib.pyplot as plt
 import numpy as np
 
-path="D:\\Sasha\\Documents\\ENPC\\IMI\\MOPSI\\python\\MOPSI\\text-analysis\\Similarity"
+path="D:\\Sasha\\Documents\\ENPC\\IMI\\MOPSI\\github\\ressources"
 os.chdir(path)
 data2 = pd.read_csv("data2_processed.csv")
 d2v_model = doc2vec.Doc2Vec.load("d2v_model")
