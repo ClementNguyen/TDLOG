@@ -11,7 +11,7 @@ id=data.values[:,0]
 product_names=data.values[:,1]
 product_descriptions=data.values[:,2]
 dsc_image_urls=data.values[:,3]
-data2 = pd.read_csv("data2_processed.csv")
+data2 = pandas.read_csv("data2_processed.csv")
 d2v_model = doc2vec.Doc2Vec.load("d2v_model")
 
 ##Recategorize some misclassified products
@@ -45,7 +45,7 @@ def recommandations(product):
   for i in range(len(product_names)):
     if product_names[i]!=product_names[product] and str(product_descriptions[i])!='nan' and str(dsc_image_urls[i])!='nan' and c[0] in categories[i]:
       d=1-similarity_test.evaluateSimilarity(product,i,data)
-      d+=doc2vec_comparaison.descriptionDistance(newindex(product),newindex(i),data2)
+      d+=descriptionDistance(newindex(product),newindex(i),data2)
       distances.append((d,i))
   distances=sorted(distances)
   seuil=distances[3*len(distances)//4][0]
@@ -56,7 +56,7 @@ def recommandations(product):
     for i in range(len(product_names)):
       if product_names[i]!=product_names[product] and str(product_descriptions[i])!='nan' and str(dsc_image_urls[i])!='nan' and c[k] in categories[i]:
         d=1-similarity_test.evaluateSimilarity(product,i,data)
-        d+=doc2vec_comparaison.descriptionDistance(newindex(product),newindex(i),data2)
+        d+=descriptionDistance(newindex(product),newindex(i),data2)
         if d>seuil:
           distances.append((d,i))
     distances=sorted(distances)
