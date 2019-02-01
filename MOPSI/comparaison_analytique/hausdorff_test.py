@@ -8,6 +8,7 @@ from PIL import Image, ImageMath
 from pylab import *
 import scipy
 import cv2
+import imutils
 
 
 ##
@@ -84,8 +85,78 @@ def symmetric_hausdorff(image1,image2):
     return(max(distance1,distance2))
 
 ##Superposition des deux images pour "voir la distance d'Hausdorff
-im1 = Image.open("contour_1.jpg")
-im2 = Image.open("contour_2.jpg")
+# Open an Image
+def open_image(path):
+    newImage = Image.open(path)
+    return newImage
 
-out = ImageMath.eval("convert(min(a, b), 'L')", a=im1, b=im2)
-out.save("result.png")
+def create_image(i, j):
+    image = Image.new("RGB", (i, j), "white")
+    return image
+    
+def get_pixel(image, i, j):
+    # Inside image bounds?
+    width, height = image.size
+    if i > width or j > height:
+      return None
+
+    # Get Pixel
+    pixel = image.getpixel((i, j))
+    return pixel
+
+def save_image(image, path):
+    image.save(path, 'png')
+
+def convert_to_red(image_adress):
+    image=open_image(image_adress)
+    # Get size
+    width, height = image.size
+    #Create new Image and a Pixel Map
+    new = create_image(width, height)
+    pixels = new.load()
+    # Transform to grayscale
+    for i in range(width):
+        for j in range(height):
+            # Get Pixel
+            pixel = get_pixel(image, i, j)
+            #Transform to red
+            if pixel==(0,0,0):
+                pixels[i,j]=(255,0,0)
+            else:
+                pixels[i,j]=(255,255,255)
+    # Return new image
+    save_image(new,"contour_red.jpg")
+    
+def convert_to_blue(image_adress):
+    image=open_image(image_adress)
+    # Get size
+    width, height = image.size
+    #Create new Image and a Pixel Map
+    new = create_image(width, height)
+    pixels = new.load()
+    # Transform to grayscale
+    for i in range(width):
+        for j in range(height):
+            # Get Pixel
+            pixel = get_pixel(image, i, j)
+            #Transform to red
+            if pixel==(0,0,0):
+                pixels[i,j]=(0,0,255)
+            else:
+                pixels[i,j]=(255,255,255)
+    # Return new image
+    save_image(new,"contour_blue.jpg")
+
+def superposition():
+    convert_to_blue("contour_1.jpg")
+    background = Image.open("contour_blue.jpg")
+    convert_to_red("contour_2.jpg")
+    overlay = Image.open("contour_red.jpg")
+    
+    background = background.convert("RGBA")
+    overlay = overlay.convert("RGBA")
+    
+    new_img = Image.blend(background, overlay,0.5)
+    new_img.save("new.png","PNG")
+
+superposition()
