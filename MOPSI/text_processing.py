@@ -6,6 +6,9 @@ from nltk import word_tokenize, sent_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import LancasterStemmer, WordNetLemmatizer
 
+stopwords_ = set(stopwords.words('english'))
+
+
 #Text processing
 
 
@@ -38,7 +41,6 @@ def remove_punctuation(words):
             new_words.append(new_word)
     return new_words
     
-#Useful?
 def replace_numbers(words):
     """Replace all interger occurrences in list of tokenized words with textual representation"""
     p = inflect.engine()
@@ -55,11 +57,10 @@ def remove_stopwords(words):
     """Remove stop words from list of tokenized words"""
     new_words = []
     for word in words:
-        if word not in stopwords.words('english'):
+        if word not in stopwords_:
             new_words.append(word)
     return new_words
     
-#Useful?
 def stem_words(words):
     """Stem words in list of tokenized words"""
     stemmer = LancasterStemmer()
@@ -83,7 +84,26 @@ def normalize(words):
     words = to_lowercase(words)
     words = remove_punctuation(words)
     #words = replace_numbers(words)
-    #words = remove_stopwords(words)
+    words = remove_stopwords(words)
     #words = stem_words(words)
     words = lemmatize(words)
     return words
+    
+def str_normalization(text):
+    words = tokenize(text)
+    words = normalize(words)
+    return words
+    
+def strToListInt(x):
+    """
+    Transform '[1, 2]' into [1, 2]
+    """
+    if type(x)==str:
+        return [int(i) for i in x[1:-1].split(", ")]
+        
+def strToList(x):
+    """
+    Transform "['a', 'b']" into ['a', 'b']
+    """
+    if type(x)==str:
+        return x[2:-2].split("', '")

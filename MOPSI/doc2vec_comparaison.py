@@ -35,9 +35,9 @@ def index_of_category(category):
             index_product.append(k)
     return(index_product)
 
-#index_product=index_of_category("['Gaming', 'Playstation', 'PlayStation 4', 'Consoles']")
+index_product=index_of_category("['Gaming', 'Playstation', 'PlayStation 4', 'Consoles']")
 #index_product=index_of_category("['Phones & Tablets', 'Mobile Phones', 'Smartphones', 'Android Phones']")
-index_product=index_of_category("['Home & Office', 'Home & Kitchen', 'Kitchen & Dining', 'Small Appliances', 'Microwave Ovens']")
+#index_product=index_of_category("['Home & Office', 'Home & Kitchen', 'Kitchen & Dining', 'Small Appliances', 'Microwave Ovens']")
 
 
 def vecteur_moyen(index_product):
@@ -81,13 +81,14 @@ def graph1(nb_products):#graphe qui représente la similarité moyenne de nb_pro
             l_median.append(resu[2])
     
     plt.figure()
-    plt.plot(np.arange(compteur),l_min)
-    plt.plot(np.arange(compteur),l_mean)
+    #plt.plot(np.arange(compteur),l_min)
+    #plt.plot(np.arange(compteur),l_mean)
     plt.plot(np.arange(compteur),l_median)
     #m_inside=test_accuracy_in_category()
-    plt.plot([0,compteur-1],[m_inside,m_inside])
+    #plt.plot([0,compteur-1],[m_inside,m_inside])
     plt.plot([0,compteur-1],[median_inside,median_inside])
-    plt.legend(["min","mean","median","mean_inside","median_inside"])
+    #plt.legend(["min","mean","median","mean_inside","median_inside"])
+    plt.legend(["median","median_inside"])
     plt.show()
 
 graph1(150)

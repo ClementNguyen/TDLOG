@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import os
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageMath
 from pylab import *
 import scipy
 import cv2
@@ -83,3 +83,9 @@ def symmetric_hausdorff(image1,image2):
     distance2=distance_hausdorff(image2,image1)
     return(max(distance1,distance2))
 
+##Superposition des deux images pour "voir la distance d'Hausdorff
+im1 = Image.open("contour_1.jpg")
+im2 = Image.open("contour_2.jpg")
+
+out = ImageMath.eval("convert(min(a, b), 'L')", a=im1, b=im2)
+out.save("result.png")
