@@ -1,8 +1,23 @@
 {
     "name": "tdlog",
     "version": "0.1.0",
-    "private": true,
-    "proxy": "http://localhost:4000",
+    "private": true,    
+    "proxy": {
+        "/api": {
+            "target": "https://localhost:4000/",
+            "changeOrigin": true,
+            "pathRewrite": {
+              "^/api": ""
+            }
+        },
+        "/api2": {
+            "target": "https://localhost:5000/",
+            "changeOrigin": true,
+            "pathRewrite": {
+              "^/api2": ""
+            }
+        }
+    },
     "scripts": {
         "frontend": "cd client && npm start",
         "backend": "node server.js",
