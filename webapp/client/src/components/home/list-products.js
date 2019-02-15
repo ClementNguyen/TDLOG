@@ -20,11 +20,12 @@ class ListOfProducts extends Component {
         this.state = {
             length_list: props.length_list,
             active: props.active,
-            products: list_temp
-        }
+            products: list_temp,
+            is_loading: true
+        };
     }
     async componentDidMount() {
-        const response =  await fetch('http://localhost:4000/', {
+        const response = await fetch('http://localhost:4000/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,28 +34,32 @@ class ListOfProducts extends Component {
             body: JSON.stringify({ post: this.state.active, post_length: this.state.length_list }),
         });
         const products = await response.json();
-        this.setState({products: products})
+        this.setState({
+            products: products,
+            is_loading: false
+        })
     }
 
     createList = () => {
         let products_list = []
-        for (let i = 0; i < Math.min(this.state.length_list,this.state.products.length); i++) {
-            products_list.push(<Product key={'product_' + String(i)} info_product={this.state.products[i]}/>) 
-/*                 productName={this.state.products[i].Name}
-                price={this.state.products[i].RetailPrice}
-                currency={this.state.products[i].currency}
-                description={this.state.products[i].Description}
-                imageSrc={this.state.products[i].SmallImage} />) */
+        for (let i = 0; i < Math.min(this.state.length_list, this.state.products.length); i++) {
+            products_list.push(<Product key={'product_' + String(i)} info_product={this.state.products[i]} />)
+            /*                 productName={this.state.products[i].Name}
+                            price={this.state.products[i].RetailPrice}
+                            currency={this.state.products[i].currency}
+                            description={this.state.products[i].Description}
+                            imageSrc={this.state.products[i].SmallImage} />) */
         }
         return products_list
     }
 
     async componentWillReceiveProps(props) {
         if (props.active !== this.state.active || props.length_list !== this.state.length_list) {
-            this.setState({ 
+            this.setState({
+                is_loading: true,
                 active: props.active,
                 length_list: props.length_list
-             })        
+            })
             const response = await fetch('http://localhost:4000/', {
                 method: 'POST',
                 headers: {
@@ -65,15 +70,22 @@ class ListOfProducts extends Component {
             });
             const products = await response.json();
             this.setState({
+                is_loading: false,
                 products: products,
                 length_list: products.length
             })
         }
     }
-    render() {        
+    render() {
         return (
             <div className="list_products">
-                {this.createList()}
+                {this.state.is_loading ?
+                    <div className="loader-container">
+                        <div className="loader-home" />
+                    </div>
+                    :
+                    this.createList()
+                }
             </div>
         );
     }

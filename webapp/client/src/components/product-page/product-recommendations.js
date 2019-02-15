@@ -6,6 +6,7 @@ class ProductRecommendations extends Component {
         super();
         this.state = {
             id: props.id,
+            is_loading: true,
             similar: [],
             complementary: []
         }
@@ -21,12 +22,12 @@ class ProductRecommendations extends Component {
             },
             body: JSON.stringify({ ID: this.state.id }),
         });
-        const recommendations = await response.json();   
+        const recommendations = await response.json();
         if (recommendations[0] !== null) {
-            recommendations_res = [recommendations[0],recommendations[1]];
-        }     
+            recommendations_res = [recommendations[0], recommendations[1]];
+        }
         else {
-            const response2 = await fetch('http://localhost:5000/'+this.state.id, {
+            const response2 = await fetch('http://localhost:5000/' + this.state.id, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -64,7 +65,8 @@ class ProductRecommendations extends Component {
         }
         this.setState({
             similar: similar,
-            complementary: complementary
+            complementary: complementary,
+            is_loading: false
         })
     }
 
@@ -73,15 +75,29 @@ class ProductRecommendations extends Component {
             <div>
                 <div className='grid-container'>
                     <h1>Similar products</h1>
-                    <div className='grid'>
-                        {this.state.similar}
-                    </div>
+                    {
+                        this.state.is_loading ?
+                            <div className='load-spinner'>
+                                <div className="loader"></div>
+                            </div>
+                            :
+                            <div className='grid'>
+                                {this.state.similar}
+                            </div>
+                    }
                 </div>
                 <div className='grid-container'>
                     <h1>Complementary products</h1>
-                    <div className='grid'>
-                        {this.state.complementary}
-                    </div>
+                    {
+                        this.state.is_loading ?
+                            <div className='load-spinner'>
+                                <div className="loader"/>
+                            </div>
+                            :
+                            <div className='grid'>
+                                {this.state.complementary}
+                            </div>
+                    }
                 </div>
             </div>
         );

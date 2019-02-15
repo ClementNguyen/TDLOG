@@ -30,7 +30,7 @@ w2v_model = Word2Vec.load(".\ml\word2vec\w2v_model")
 vocab = w2v_model.wv.vocab
 index2word_set = set(w2v_model.wv.index2word)
 
-d2v_model = doc2vec.Doc2Vec.load(".\ml\word2vec\d2v_model")
+#d2v_model = doc2vec.Doc2Vec.load(".\ml\word2vec\d2v_model")
 
 
 def avg_feature_vector(words):
@@ -70,7 +70,10 @@ def descDist(desc1,desc2):
     text_sim = 0
   return text_sim   
   
-
+def distByID(id1,id2):
+  name1 = data[data['ID']==id1]['Name'].values[0]
+  name2 = data[data['ID']==id2]['Name'].values[0]
+  return nameDist(name1,name2)
 
 def findRecommendationsV1(id):
     
@@ -98,6 +101,7 @@ def findRecommendations(id):
   #id = 'CA099FA0MYDUINAFAMZ'
   product = data[data['ID']==id]
   product_name = strToList(product['Name'].values[0])
+  product_desc = strToList(product['Description'].values[0])
   T0 = time.clock()
   product_cat_str = product['Categories'].values[0]
   print(product_cat_str)
@@ -168,6 +172,13 @@ def findRecommendations(id):
             dist = nameDist(product_name,row['Name'])
             if ((common_words_dist<0.40 and dist>best_dist[0]) or (common_words_dist>0.40 and dist<best_dist[0])):
               best_dist = [dist,row['ID']]
+          
+          # best_product = data[data['ID']==best_dist[1]]
+          # best_product_desc = strToList(best_product['Description'].values[0])
+          # print(best_product['Name'])
+          # print("infer vec dist: ", descDist(best_product_desc,product_desc))
+          # print("avg vect dist: ", nameDist(best_product_desc,product_desc))
+          
           if (best_dist[0]<0.85):
             complementary.append(best_dist[1])
     print("T3: ", time.clock()-T0)
@@ -205,7 +216,14 @@ def findRecommendations(id):
             for index, row in df_complementary_cat.iterrows():
               dist = nameDist(product_name,row['Name'])
               if ((common_words_dist<0.40 and dist>best_dist[0]) or (common_words_dist>0.40 and dist < best_dist[0])):
-                best_dist = [dist,row['ID']]            
+                best_dist = [dist,row['ID']]  
+                
+            # best_product = data[data['ID']==best_dist[1]]
+            # best_product_desc = strToList(best_product['Description'].values[0])
+            # print(best_product['Name'])
+            # print("infer vec dist: ", descDist(best_product_desc,product_desc))
+            # print("avg vect dist: ", nameDist(best_product_desc,product_desc))
+                          
             if (best_dist[0]<0.85):  
               complementary.append(best_dist[1])
       print("T4: ", time.clock()-T0)

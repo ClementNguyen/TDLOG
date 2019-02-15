@@ -85,6 +85,7 @@ class Home extends Component {
             active={this.state.active === null ? "" : this.state.active.path}
             length_list={this.state.length_list}
           />
+          
           <button onClick={this.loadMore} type="button" className="load-more">
             MORE PRODUCTS
           </button>

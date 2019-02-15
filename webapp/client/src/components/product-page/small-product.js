@@ -15,6 +15,7 @@ class SmallProduct extends Component {
             <div className='small-product'>                
                 <img src={this.state.product.SmallImage} width={140} height={140} 
                 alt="thumbnail" id='small-product-image'/>
+                <br/>
                 <a id='small-product-name' href={this.state.product.ID}>{this.state.product.Name}</a>
                 <p id='small-product-price'>{this.state.product.RetailPrice + this.state.product.currency}</p>
             </div>
