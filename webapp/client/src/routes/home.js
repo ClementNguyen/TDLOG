@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ListOfProducts from '../components/home/list-products';
 import MenuCategories from '../components/home/menu-categories';
 import product_tree from '../components/home/product_tree';
+import url from '../url'
 
 import '../components/home/home.css';
 
@@ -36,7 +37,7 @@ class Home extends Component {
   }
 
   async onClickRecommendations() {
-    const response = await fetch('http://localhost:4000/recommended', {
+    const response = await fetch(url.url4000+'/recommended', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -68,7 +69,7 @@ class Home extends Component {
               type="text"
               className="input"
               id="addInput"
-              placeholder="Product ID..."
+              placeholder="Search by ID..."
             />
             <button className="search-button" onClick={this.onClickSearch}>
               <i className="fa fa-search"></i>
@@ -85,7 +86,6 @@ class Home extends Component {
             active={this.state.active === null ? "" : this.state.active.path}
             length_list={this.state.length_list}
           />
-          
           <button onClick={this.loadMore} type="button" className="load-more">
             MORE PRODUCTS
           </button>

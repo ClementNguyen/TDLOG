@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ProductInfo from '../components/product-page/product-info';
 import ProductRecommendations from '../components/product-page/product-recommendations';
 import '../components/product-page/product-page.css'
+import url from '../url'
 
 class ProductPage extends Component {
     constructor(props) {
@@ -19,7 +20,7 @@ class ProductPage extends Component {
     }
 
     async componentDidMount() {
-        const response = await fetch('http://localhost:4000/', {
+        const response = await fetch(url.url4000, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

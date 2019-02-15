@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Product from './product'
+import url from '../../url'
 
 class ListOfProducts extends Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class ListOfProducts extends Component {
         };
     }
     async componentDidMount() {
-        const response = await fetch('http://localhost:4000/', {
+        const response = await fetch(url.url4000, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -44,11 +45,6 @@ class ListOfProducts extends Component {
         let products_list = []
         for (let i = 0; i < Math.min(this.state.length_list, this.state.products.length); i++) {
             products_list.push(<Product key={'product_' + String(i)} info_product={this.state.products[i]} />)
-            /*                 productName={this.state.products[i].Name}
-                            price={this.state.products[i].RetailPrice}
-                            currency={this.state.products[i].currency}
-                            description={this.state.products[i].Description}
-                            imageSrc={this.state.products[i].SmallImage} />) */
         }
         return products_list
     }
@@ -60,7 +56,7 @@ class ListOfProducts extends Component {
                 active: props.active,
                 length_list: props.length_list
             })
-            const response = await fetch('http://localhost:4000/', {
+            const response = await fetch(url.url4000, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

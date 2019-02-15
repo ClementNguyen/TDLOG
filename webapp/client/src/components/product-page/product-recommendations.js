@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SmallProduct from './small-product';
+import url from '../../url'
 
 class ProductRecommendations extends Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class ProductRecommendations extends Component {
 
     async componentDidMount() {
         let recommendations_res = []
-        const response = await fetch('http://localhost:4000/recommendations', {
+        const response = await fetch(url.url4000+'/recommendations', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -27,7 +28,7 @@ class ProductRecommendations extends Component {
             recommendations_res = [recommendations[0], recommendations[1]];
         }
         else {
-            const response2 = await fetch('http://localhost:5000/' + this.state.id, {
+            const response2 = await fetch(url.url5000+'/'+ this.state.id, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,7 +36,7 @@ class ProductRecommendations extends Component {
                 },
             });
             const recommendations2 = await response2.json();
-            const response_similar = await fetch('http://localhost:4000/', {
+            const response_similar = await fetch(url.url4000, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ class ProductRecommendations extends Component {
                 body: JSON.stringify({ post: recommendations2[0], post_length: -2 }),
             });
             const res_similar = await response_similar.json();
-            const response_complementary = await fetch('http://localhost:4000/', {
+            const response_complementary = await fetch(url.url4000, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
